@@ -38,6 +38,17 @@
                     <i class="icofont-briefcase"></i><span>Projects</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
                 <!-- Menu: Sub menu ul -->
                 <ul class="sub-menu {{ Request::segment(2)=='project' ? 'collapsed show' : 'collapse' }}" id="project-Components">
+                    <li><a class="ms-link {{ Request::segment(3)=='index' ? 'active' : '' }}" href="{{ route('admin.proyecto.index') }}"><span>Proyectos</span></a></li>
+                    <li><a class="ms-link {{ Request::segment(3)=='tasks' ? 'active' : '' }}" href="{{ route('admin.project.tasks') }}"><span>Tasks</span></a></li>
+                    <li><a class="ms-link {{ Request::segment(3)=='timesheet' ? 'active' : '' }}" href="{{ route('admin.project.timesheet') }}"><span>Timesheet</span></a></li>
+                    <li><a class="ms-link {{ Request::segment(3)=='leaders' ? 'active' : '' }}" href="{{ route('admin.project.leaders') }}"><span>Leaders</span></a></li>
+                </ul>
+            </li>
+            <li  class="collapsed">
+                <a class="m-link {{ Request::segment(2)=='project' ? 'active' : '' }}"  data-bs-toggle="collapse" data-bs-target="#project-Components" href="#">
+                    <i class="icofont-briefcase"></i><span>Projects</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
+                <!-- Menu: Sub menu ul -->
+                <ul class="sub-menu {{ Request::segment(2)=='project' ? 'collapsed show' : 'collapse' }}" id="project-Components">
                     <li><a class="ms-link {{ Request::segment(3)=='index' ? 'active' : '' }}" href="{{ route('admin.project.index') }}"><span>Projects</span></a></li>
                     <li><a class="ms-link {{ Request::segment(3)=='tasks' ? 'active' : '' }}" href="{{ route('admin.project.tasks') }}"><span>Tasks</span></a></li>
                     <li><a class="ms-link {{ Request::segment(3)=='timesheet' ? 'active' : '' }}" href="{{ route('admin.project.timesheet') }}"><span>Timesheet</span></a></li>

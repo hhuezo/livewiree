@@ -1,3 +1,10 @@
+
+<style>
+.flex-nowrap {
+    flex-wrap: nowrap !important;
+    display: none;
+}
+</style>
 <!-- Body: Header -->
 <div class="header">
     <nav class="navbar py-4">
