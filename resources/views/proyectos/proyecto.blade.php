@@ -13,7 +13,7 @@
 
 
 
-    <livewire:proyecto />
+    <livewire:proyecto-show />
 
 
 

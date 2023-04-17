@@ -1,10 +1,7 @@
 <div style="text-align: center">
-   <button class="btn btn-success" wire:click="update()">+</button>
-   {{ $modal_id }} <br>
-    {{ $modal_nombre }} <br>
-    {{ $modal_descripcion}}<br>
-    {{ $modal_estado_id }}
-    <div id="create_proyecto" tabindex="-1" class="modal fade" tabindex="-1" aria-hidden="true">
+
+
+    <div id="create_proyecto" wire:ignore.self tabindex="-1" class="modal fade" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header col">
@@ -36,49 +33,14 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button class="btn btn-primary" wire:click="store()" onclick="close_modal();">Create</button>
+                    <button class="btn btn-primary" wire:click="store()" data-bs-dismiss="modal">Create</button>
                 </div>
             </div>
         </div>
     </div>
 
 
-    <div id="edit_proyecto" tabindex="-1" class="modal fade" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header col">
-                    <h5 class="modal-title  fw-bold" id="createprojectlLabel">Modificar proyecto</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <input type="text" id="modal_id" wire:model.defer="modal_id">
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label">Estado</label>
-                        <select class="form-select" id="modal_estado_id" wire:model.defer="modal_estado_id"
-                            aria-label="Default select Project Category">
 
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Nombre</label>
-                        <input type="text" wire:model.defer="modal_nombre" id="modal_nombre" class="form-control">
-                    </div>
-
-
-                    <div class="mb-3">
-                        <label for="exampleFormControlTextarea786" class="form-label">Descripción</label>
-                        <textarea class="form-control" id="modal_descripcion" wire:model.defer="modal_descripcion" rows="3"></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button class="btn btn-primary" wire:click="update()">Create</button>
-                </div>
-                {{$count}}
-            </div>
-        </div>
-    </div>
 
     <div class="py-12">
 
@@ -135,8 +97,6 @@
                                                     <div class="card-body">
                                                         <div
                                                             class="d-flex align-items-center justify-content-between mt-5">
-
-<!--data-bs-target="#edit_proyecto" -->
                                                             <span class="small text-muted project_name fw-bold">
                                                                 {{ $proyecto->nombre }} </span>
                                                             <h6 class="mb-0 fw-bold  fs-6  mb-2">UI/UX Design</h6>
@@ -144,13 +104,12 @@
                                                             <div class="btn-group" role="group"
                                                                 aria-label="Basic outlined example">
                                                                 <button type="button"
+                                                                    wire:click="edit({{ $proyecto->id }})"
                                                                     class="btn btn-outline-secondary"
                                                                     data-bs-toggle="modal"
-                                                                    ><i data-bs-target="#edit_proyecto"
-                                                                        class="icofont-edit text-success"
-                                                                        wire:click="edit({{ $proyecto->id }})"></i></button>
-                                                                <button type="button"
-                                                                    class="btn btn-outline-secondary"
+                                                                    data-bs-target="#modal-edit-{{ $proyecto->id }}"><i
+                                                                        class="icofont-edit text-success"></i></button>
+                                                                <button type="button" class="btn btn-outline-secondary"
                                                                     data-bs-toggle="modal"
                                                                     data-bs-target="#deleteproject"><i
                                                                         class="icofont-ui-delete text-danger"></i></button>
@@ -208,6 +167,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                @include('livewire.proyecto-edit')
                                             @endif
                                         @endforeach
                                     </div>
@@ -232,15 +192,18 @@
             </div>
         </div>
     </div>
-</div>
-<div class="contenedor"
-    style="width: 90px;
+
+
+
+    <div class="contenedor"
+        style="width: 90px;
         height: 240px;
         position: absolute;
         right: 0px;
         bottom: 0px;">
-    <button class="botonF1" data-bs-toggle="modal" data-bs-target="#create_proyecto"
-        style=" width: 60px;
+
+        <button class="botonF1" wire:click="create()" data-bs-toggle="modal" data-bs-target="#create_proyecto"
+            style=" width: 60px;
     height: 60px;
     border-radius: 100%;
     background: #2196F3;
@@ -255,46 +218,9 @@
     font-size: 36px;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     transition: .3s;">
-        <span>+</span>
-    </button>
+            <span>+</span>
+        </button>
+
+    </div>
 
 </div>
-
-<script src="{{ asset('assets/jquery.min.js') }}"></script>
-
-<script>
-    $(document).ready(function() {
-        //alert('');
-    });
-
-    function close_modal() {
-        $('#create_proyecto').modal('hide');
-    }
-
-    function edit(id) {
-
-        $.get("{{ url('proyecto') }}" + '/' + id, function(data) {
-            //console.log(data.estados[0].id);
-
-            var _select = '';
-            for (var i = 0; i < data.estados.length; i++) {
-                if (data.proyecto[0].estado_id == data.estados[i].id) {
-                    _select += '<option value="' + data.estados[i].id + '"  selected>' + data.estados[i]
-                        .nombre +
-                        '</option>';
-                } else {
-                    _select += '<option value="' + data.estados[i].id + '"  >' + data.estados[i].nombre +
-                        '</option>';
-                }
-            }
-            $(modal_estado_id).html(_select);
-            document.getElementById('modal_id').value =  data.proyecto[0].id;
-            document.getElementById('modal_nombre').value =  data.proyecto[0].nombre;
-            document.getElementById('modal_descripcion').value =  data.proyecto[0].descripcion;
-            console.log(data);
-
-           
-        });
-
-    }
-</script>
