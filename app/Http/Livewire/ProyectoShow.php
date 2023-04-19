@@ -27,7 +27,7 @@ class ProyectoShow extends Component
         $this->id_proyecto = 0;
         $this->nombre = '';
         $this->descripcion = '';
-        $this->estado_id = '';
+        $this->estado_id = 2;
     }
 
     public function create()
@@ -69,4 +69,10 @@ class ProyectoShow extends Component
         $proyecto->update();
         $this->resetInput();
     }
+
+    public function actividad_show($id)
+    {       
+        return redirect()->to('proyecto/' . $id);
+    }
+
 }
