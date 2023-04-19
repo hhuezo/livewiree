@@ -33,7 +33,7 @@ class LoginController
      * @return string
      */
     public function redirectPath()
-    {
+    {        
         return route(homeRoute());
     }
 

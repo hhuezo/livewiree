@@ -38,15 +38,22 @@ class ProyectoShow extends Component
 
     public function store()
     {
+        $messages = [
+            'estado_id.required' => 'El estado es requerido',
+            'nombre.required' => 'El nombre es requerido',
+            'descripcion.required' => 'La descripcion es requerida',
+        ];
         $validateData = $this->validate([
             'estado_id' => 'required',
             'nombre' => 'required',
             'descripcion' => 'required',
-        ]);
+        ],$messages);
 
         Proyecto::create($validateData);
         session()->flash('message', 'Registro creado correctamente');
         $this->resetInput();
+
+        $this->dispatchBrowserEvent('close-modal');
 
     }
 

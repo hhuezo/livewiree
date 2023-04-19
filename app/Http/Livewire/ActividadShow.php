@@ -14,17 +14,17 @@ use Carbon\Carbon;
 class ActividadShow extends Component
 {
     public $id_proyecto = 0, $id_actividad, $numero_ticket, $ponderacion, $descripcion,
-        $fecha_inicio, $categoria_id, $estado_id, $prioridad_id, $fecha_fin, $forma = "NO APLICA", $users_id, $tipo = 1;
+        $fecha_inicio, $categoria_id, $estado_id, $prioridad_id, $fecha_fin, $forma = "NO APLICA", $users_id, $tipo = 1, $busqueda;
 
     public $count = 0;
 
-    public function mount(){
-        
-        if(session('id_proyecto'))
-        {
+    public function mount()
+    {
+
+        if (session('id_proyecto')) {
             $this->id_proyecto = session('id_proyecto');
         }
-      }
+    }
 
     public function render()
     {
@@ -33,7 +33,11 @@ class ActividadShow extends Component
         $categorias = Categoria::get();
         $prioridades = Prioridad::get();
         $usuarios = Users::where('id', '>', 1)->get();
-        $actividades = Actividad::where('proyecto_id', '=', $this->id_proyecto)->orderBy('id', 'desc')->get();
+        if (strlen($this->busqueda) > 0) {
+            $actividades = Actividad::where('descripcion', 'like', '%' . $this->busqueda . '%')->where('proyecto_id', '=', $this->id_proyecto)->orderBy('id', 'desc')->get();
+        } else {
+            $actividades = Actividad::where('proyecto_id', '=', $this->id_proyecto)->orderBy('id', 'desc')->get();
+        }
         return view('livewire.actividad-show', compact('proyecto', 'actividades', 'estados', 'categorias', 'prioridades', 'usuarios'));
     }
 
@@ -46,16 +50,14 @@ class ActividadShow extends Component
 
 
 
-    
+
     public function changeType()
     {
-        if($this->tipo == 1){
+        if ($this->tipo == 1) {
             $this->tipo = 2;
-        }
-        else{
+        } else {
             $this->tipo = 1;
         }
-       
     }
 
     private function resetInput()
@@ -75,7 +77,7 @@ class ActividadShow extends Component
         $messages = [
             'numero_ticket.required' => 'El número de ticket es requerido',
             'ponderacion.required' => 'La ponderación es requerida',
-            'descripcion.required' => 'El descripcion es requerido',
+            'descripcion.required' => 'La descripcion es requerida',
             'fecha_inicio.required' => 'La fecha de inicio es requerida',
             'categoria_id.required' => 'La categoria es requerida',
             'estado_id.required' => 'El estado  es requerido',
@@ -128,13 +130,13 @@ class ActividadShow extends Component
         $this->numero_ticket = $actividad->numero_ticket;
         $this->ponderacion = $actividad->ponderacion;
         $this->descripcion = $actividad->descripcion;
-        $this->fecha_inicio = substr($actividad->fecha_inicio,0,10) ;
+        $this->fecha_inicio = substr($actividad->fecha_inicio, 0, 10);
         $this->categoria_id = $actividad->categoria_id;
         $this->estado_id = $actividad->estado_id;
         $this->prioridad_id = $actividad->prioridad_id;
-        $this->fecha_fin = substr($actividad->fecha_fin,0,10) ;
+        $this->fecha_fin = substr($actividad->fecha_fin, 0, 10);
         $this->forma = $actividad->forma;
-        $this->users_id = $actividad->users_id; 
+        $this->users_id = $actividad->users_id;
     }
 
     public function update()
@@ -142,7 +144,7 @@ class ActividadShow extends Component
         $messages = [
             'numero_ticket.required' => 'El número de ticket es requerido',
             'ponderacion.required' => 'La ponderación es requerida',
-            'descripcion.required' => 'El descripcion es requerido',
+            'descripcion.required' => 'La descripcion es requerida',
             'fecha_inicio.required' => 'La fecha de inicio es requerida',
             'categoria_id.required' => 'La categoria es requerida',
             'estado_id.required' => 'El estado  es requerido',
@@ -181,6 +183,4 @@ class ActividadShow extends Component
 
         $this->dispatchBrowserEvent('close-modal-edit');
     }
-
-  
 }

@@ -6,8 +6,17 @@
                 <h5 class="modal-title  fw-bold" id="createprojectlLabel">Modificar proyecto</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <input type="text" wire:model.defer="id_proyecto">
+            <input type="hidden" wire:model.defer="id_proyecto">
             <div class="modal-body">
+                @if (count($errors) > 0)
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <div class="mb-3">
                     <label class="form-label">Estado</label>
                     <select class="form-select" wire:model.defer="estado_id"
@@ -32,7 +41,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button class="btn btn-primary" data-bs-dismiss="modal" wire:click="update()">Create</button>
+                <button class="btn btn-primary" data-bs-dismiss="modal" wire:click="update()">Guardar</button>
             </div>
 
         </div>

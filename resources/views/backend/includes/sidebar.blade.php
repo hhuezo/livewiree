@@ -14,6 +14,17 @@
         <!-- Menu: main ul -->
 
         <ul class="menu-list flex-grow-1 mt-3">
+            <li  class="collapsed">
+                <a class="m-link {{ Request::segment(2)=='project' ? 'active' : '' }}"  data-bs-toggle="collapse" data-bs-target="#project-Components" href="#">
+                    <i class="icofont-briefcase"></i><span>Proyectos</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
+                <!-- Menu: Sub menu ul -->
+                <ul class="sub-menu {{ Request::segment(2)=='project' ? 'collapsed show' : 'collapse' }}" id="project-Components">
+                    <li><a class="ms-link {{ Request::segment(3)=='index' ? 'active' : '' }}" href="{{ url('proyecto') }}"><span>Proyectos</span></a></li>
+                    <li><a class="ms-link {{ Request::segment(3)=='tasks' ? 'active' : '' }}" href="{{ route('admin.project.tasks') }}"><span>Tasks</span></a></li>
+                    <li><a class="ms-link {{ Request::segment(3)=='timesheet' ? 'active' : '' }}" href="{{ route('admin.project.timesheet') }}"><span>Timesheet</span></a></li>
+                    <li><a class="ms-link {{ Request::segment(3)=='leaders' ? 'active' : '' }}" href="{{ route('admin.project.leaders') }}"><span>Leaders</span></a></li>
+                </ul>
+            </li>
             <li class="collapsed">
                 <a class="m-link {{ Request::segment(2) == 'hr-dashboard' || Request::segment(2) == 'project-dashboard' ? 'active' : '' }}" data-bs-toggle="collapse" data-bs-target="#dashboard-Components" href="#">
                     <i class="icofont-home fs-5"></i> <span>Dashboard</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
@@ -33,17 +44,7 @@
                     <li><a class="ms-link {{ Request::is('admin/auth/role') || Request::is('admin/auth/role/create') ? 'active' : '' }}" href="{{ route('admin.auth.role.index') }}">Role Management</a></li>
                 </ul>
             </li>
-            <li  class="collapsed">
-                <a class="m-link {{ Request::segment(2)=='project' ? 'active' : '' }}"  data-bs-toggle="collapse" data-bs-target="#project-Components" href="#">
-                    <i class="icofont-briefcase"></i><span>Projects</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
-                <!-- Menu: Sub menu ul -->
-                <ul class="sub-menu {{ Request::segment(2)=='project' ? 'collapsed show' : 'collapse' }}" id="project-Components">
-                    <li><a class="ms-link {{ Request::segment(3)=='index' ? 'active' : '' }}" href="{{ route('admin.proyecto.index') }}"><span>Proyectos</span></a></li>
-                    <li><a class="ms-link {{ Request::segment(3)=='tasks' ? 'active' : '' }}" href="{{ route('admin.project.tasks') }}"><span>Tasks</span></a></li>
-                    <li><a class="ms-link {{ Request::segment(3)=='timesheet' ? 'active' : '' }}" href="{{ route('admin.project.timesheet') }}"><span>Timesheet</span></a></li>
-                    <li><a class="ms-link {{ Request::segment(3)=='leaders' ? 'active' : '' }}" href="{{ route('admin.project.leaders') }}"><span>Leaders</span></a></li>
-                </ul>
-            </li>
+          
             <li  class="collapsed">
                 <a class="m-link {{ Request::segment(2)=='project' ? 'active' : '' }}"  data-bs-toggle="collapse" data-bs-target="#project-Components" href="#">
                     <i class="icofont-briefcase"></i><span>Projects</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
