@@ -121,7 +121,7 @@
                                         <div class="progress" style="height: 20px;">
                                             <div class="progress-bar progress-bar-warning" role="progressbar"
                                                 aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"
-                                                style="width: {{ $actividad->porcentaje }}%;">
+                                                style="width: 100%;">
                                                 {{ $actividad->porcentaje }}%
                                             </div>
                                         </div>

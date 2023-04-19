@@ -62,8 +62,10 @@ class ActividadShow extends Component
 
     private function resetInput()
     {
+        $tipo_temp = $this->tipo;
         $this->reset();
         $this->id_proyecto = session('id_proyecto');
+        $this->tipo =  $tipo_temp;
     }
 
 

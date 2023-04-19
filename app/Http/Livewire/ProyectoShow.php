@@ -69,12 +69,26 @@ class ProyectoShow extends Component
 
     public function update()
     {
+        $messages = [
+            'estado_id.required' => 'El estado es requerido',
+            'nombre.required' => 'El nombre es requerido',
+            'descripcion.required' => 'La descripcion es requerida',
+        ];
+
+        $validateData = $this->validate([
+            'estado_id' => 'required',
+            'nombre' => 'required',
+            'descripcion' => 'required',
+        ],$messages);
+
         $proyecto = Proyecto::findOrFail($this->id_proyecto);
         $proyecto->nombre = $this->nombre;
         $proyecto->descripcion = $this->descripcion;
         $proyecto->estado_id = $this->estado_id;
         $proyecto->update();
-        $this->resetInput();
+        $this->reset();
+
+        $this->dispatchBrowserEvent('close-modal-edit');
     }
 
     public function actividad_show($id)
