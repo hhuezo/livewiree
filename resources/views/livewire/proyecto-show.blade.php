@@ -66,22 +66,8 @@
                 </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
                 <div
                     class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 mt-xxl-12 mt-xl-12 mt-lg-12 mt-md-12 mt-sm-12 mt-12 row">
-
-
 
                     @foreach ($estados as $estado)
                         <div
@@ -109,10 +95,18 @@
                                                                     data-bs-toggle="modal"
                                                                     data-bs-target="#modal-edit-{{ $proyecto->id }}"><i
                                                                         class="icofont-edit text-success"></i></button>
-                                                                <button type="button" class="btn btn-outline-secondary"
+
+                                                                <a href="{{ url('proyecto') }}/{{ $proyecto->id }}/edit"
+                                                                    class="btn btn-outline-secondary"><i
+                                                                        class="icofont-ui-delete text-danger"></i></a>
+                                                                <!--
+                                                                        
+                                                                       
+                                                                        
+                                                                        <button type="button" class="btn btn-outline-secondary"
                                                                     data-bs-toggle="modal"
                                                                     data-bs-target="#deleteproject"><i
-                                                                        class="icofont-ui-delete text-danger"></i></button>
+                                                                        class="icofont-ui-delete text-danger"></i></button>-->
                                                             </div>
                                                         </div>
                                                         <div class="d-flex align-items-center">

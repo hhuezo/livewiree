@@ -37,7 +37,7 @@ class UielementController
     public function modal(){
         return view('backend.ui-components.modal');
     }
-    public function navs(){
+    public function navs(){        
         return view('backend.ui-components.navs');
     }
     public function navbar(){

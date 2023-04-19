@@ -59,6 +59,7 @@ class User extends Authenticatable implements MustVerifyEmail, TwoFactorAuthenti
         'to_be_logged_out',
         'provider',
         'provider_id',
+        'user_name', 'rol_id', 'unidad_id',
     ];
 
     /**
@@ -157,4 +158,35 @@ class User extends Authenticatable implements MustVerifyEmail, TwoFactorAuthenti
     {
         return UserFactory::new();
     }
+
+
+
+    public function unidad(){
+
+        $unidad = User::join('unidades','users.unidad_id','=','unidades.id')
+        ->select('unidades.nombre')
+        ->where('users.id','=',\Auth::user()->id)->get()->first()->nombre;
+
+        return $unidad;
+    }
+
+    public function unidadId(){
+
+        $unidadId = User::join('unidades','users.unidad_id','=','unidades.id')
+        ->select('unidades.id')
+        ->where('users.id','=',\Auth::user()->id)->get()->first()->id;
+
+        return $unidadId;
+    }
+
+    public function rol(){
+
+        $rol = User::join('roles','users.rol_id','=','roles.id')
+        ->select('roles.nombre')
+        ->where('users.id','=',\Auth::user()->id)->get()->first()->nombre;
+
+        return $rol;
+    }
+
+
 }

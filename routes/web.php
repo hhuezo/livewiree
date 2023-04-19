@@ -13,7 +13,6 @@ use App\Http\Controllers\ProyectoController;
 
 
 
-
 // Switch between the included languages
 Route::get('lang/{lang}', [LocaleController::class, 'change'])->name('locale.change');
 
@@ -23,6 +22,8 @@ Route::get('lang/{lang}', [LocaleController::class, 'change'])->name('locale.cha
 Route::group(['as' => 'frontend.'], function () {
     includeRouteFiles(__DIR__.'/frontend/');
 });
+
+
 
 /*
  * Backend Routes
