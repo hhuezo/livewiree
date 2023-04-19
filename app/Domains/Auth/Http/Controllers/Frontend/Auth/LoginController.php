@@ -34,7 +34,8 @@ class LoginController
      */
     public function redirectPath()
     {
-        return route(homeRoute());
+        
+                return route(homeRoute() );
     }
 
     /**

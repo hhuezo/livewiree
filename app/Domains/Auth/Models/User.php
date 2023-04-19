@@ -182,8 +182,8 @@ class User extends Authenticatable implements MustVerifyEmail, TwoFactorAuthenti
     public function rol(){
 
         $rol = User::join('roles','users.rol_id','=','roles.id')
-        ->select('roles.nombre')
-        ->where('users.id','=',\Auth::user()->id)->get()->first()->nombre;
+        ->select('roles.name')
+        ->where('users.id','=',\Auth::user()->id)->get()->first()->name;
 
         return $rol;
     }

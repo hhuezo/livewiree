@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backend;
 use Illuminate\Http\Request;
 use DB;
-
+use App\Domains\Auth\Models\User;
 
 /**
  * Class DashboardController.
@@ -117,6 +117,7 @@ class DashboardController
 
 
 
+            $users = User::where('unidad_id','=',auth()->user()->unidadId())->get();
 
 
         return view('backend.dashboard',['numero_tickets_anterior'=>$numero_tickets_anterior,
@@ -128,7 +129,7 @@ class DashboardController
 
         'proyectos_avance'=>$proyectos_avance,
         'data_proyectos_tiempo'=>$data_proyectos_tiempo,
-
+        'users'=>$users
     ]);
     }
 

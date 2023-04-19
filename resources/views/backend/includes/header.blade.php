@@ -17,18 +17,12 @@
                     </a>
 
                     <div class="avatar-list avatar-list-stacked px-3">
-                        <img class="avatar rounded-circle" src="{{ url('/') . '/images/xs/avatar2.jpg' }}"
-                            alt="">
-                        <img class="avatar rounded-circle" src="{{ url('/') . '/images/xs/avatar1.jpg' }}"
-                            alt="">
-                        <img class="avatar rounded-circle" src="{{ url('/') . '/images/xs/avatar3.jpg' }}"
-                            alt="">
-                        <img class="avatar rounded-circle" src="{{ url('/') . '/images/xs/avatar4.jpg' }}"
-                            alt="">
-                        <img class="avatar rounded-circle" src="{{ url('/') . '/images/xs/avatar7.jpg' }}"
-                            alt="">
-                        <img class="avatar rounded-circle" src="{{ url('/') . '/images/xs/avatar8.jpg' }}"
-                            alt="">
+                        @foreach ($users as $user)
+                            {{ $user->id }}
+                            <img class="avatar rounded-circle" src="{{ asset('/images/users/' . $user->image) }}"
+                                alt="">
+                        @endforeach
+
                         <span class="avatar rounded-circle text-center pointer" data-bs-toggle="modal"
                             data-bs-target="#addUser"><i class="icofont-ui-add"></i></span>
                     </div>
@@ -137,24 +131,27 @@
                 </div>
                 <div class="dropdown user-profile ml-2 ml-sm-3 d-flex align-items-center zindex-popover">
                     <div class="u-info me-2">
-                        <p class="mb-0 text-end line-height-sm "><span class="font-weight-bold">Dylan Hunter</span>
+                        <p class="mb-0 text-end line-height-sm "><span
+                                class="font-weight-bold">{{ Auth::user()->name }}</span>
                         </p>
-                        <small>Admin Profile</small>
+                        <small>{{ Auth::user()->rol() }}</small>
                     </div>
                     <a class="nav-link dropdown-toggle pulse p-0" href="#" role="button"
                         data-bs-toggle="dropdown" data-bs-display="static">
                         <img class="avatar lg rounded-circle img-thumbnail"
-                            src="{{ url('/') . '/images/profile_av.png' }}" alt="profile">
+                            src="{{ asset('/images/users/' . Auth::user()->image) }}" alt="profile">
                     </a>
                     <div class="dropdown-menu rounded-lg shadow border-0 dropdown-animation dropdown-menu-end p-0 m-0">
                         <div class="card border-0 w280">
                             <div class="card-body pb-0">
                                 <div class="d-flex py-1">
                                     <img class="avatar rounded-circle"
-                                        src="{{ url('/') . '/images/profile_av.png' }}" alt="profile">
+                                        src="{{ asset('/images/users/' . Auth::user()->image) }}" alt="profile">
                                     <div class="flex-fill ms-3">
-                                        <p class="mb-0"><span class="font-weight-bold">Dylan Hunter</span></p>
-                                        <small class="">Dylan.hunter@gmail.com</small>
+                                        <p class="mb-0"><span
+                                                class="font-weight-bold">{{ Auth::user()->name }}</span>
+                                        </p>
+                                        <small class="">{{ Auth::user()->email }}</small>
                                     </div>
                                 </div>
 
