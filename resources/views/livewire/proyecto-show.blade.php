@@ -10,6 +10,15 @@
                 </div>
 
                 <div class="modal-body">
+                    @if (count($errors) > 0)
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <div class="mb-3">
                         <label class="form-label">Estado</label>
                         <select class="form-select" wire:model.defer="estado_id"
@@ -33,7 +42,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button class="btn btn-primary" wire:click="store()" data-bs-dismiss="modal">Create</button>
+                    <button class="btn btn-primary" wire:click="store()">Create</button>
                 </div>
             </div>
         </div>
@@ -41,6 +50,53 @@
 
 
 
+    <div id="edit_proyecto" wire:ignore.self tabindex="-1" class="modal fade" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header col">
+                    <h5 class="modal-title  fw-bold" id="createprojectlLabel">Modificar proyecto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    @if (count($errors) > 0)
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    <div class="mb-3">
+                        <input type="hidden" wire:model.defer="id_proyecto">
+                        <label class="form-label">Estado</label>
+                        <select class="form-select" wire:model.defer="estado_id"
+                            aria-label="Default select Project Category">
+                            @foreach ($estados as $obj)
+                                <option value="{{ $obj->id }}">{{ $obj->nombre }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Nombre</label>
+                        <input type="text" wire:model.defer="nombre" name="nombre" class="form-control">
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label for="exampleFormControlTextarea786" class="form-label">Descripción</label>
+                        <textarea class="form-control" wire:model.defer="descripcion" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-primary" wire:click="update()">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="py-12">
 
@@ -84,8 +140,10 @@
                                                         <div
                                                             class="d-flex align-items-center justify-content-between mt-5">
                                                             <span class="small text-muted project_name fw-bold">
-                                                                {{ $proyecto->nombre }} </span>
-                                                            <h6 class="mb-0 fw-bold  fs-6  mb-2">UI/UX Design</h6>
+                                                                {{ $proyecto->id }} </span>
+                                                            <h6 class="mb-0 fw-bold  fs-6  mb-2">
+                                                                {{ $proyecto->nombre }}
+                                                            </h6>
 
                                                             <div class="btn-group" role="group"
                                                                 aria-label="Basic outlined example">
@@ -93,12 +151,13 @@
                                                                     wire:click="edit({{ $proyecto->id }})"
                                                                     class="btn btn-outline-secondary"
                                                                     data-bs-toggle="modal"
-                                                                    data-bs-target="#modal-edit-{{ $proyecto->id }}"><i
-                                                                        class="icofont-edit text-success"></i></button>
+                                                                    data-bs-target="#edit_proyecto"><i
+                                                                        class="icofont-edit text-success fa-lg"></i></button>
 
-                                                                <a href="{{ url('proyecto') }}/{{ $proyecto->id }}/edit"
-                                                                    class="btn btn-outline-secondary"><i
-                                                                        class="icofont-ui-delete text-danger"></i></a>
+                                                                <div class="btn btn-outline-secondary"><i
+                                                                        class="icofont-eye-alt text-info fa-lg"
+                                                                        wire:click="actividad_show({{ $proyecto->id }})"></i>
+                                                                </div>
                                                                 <!--
                                                                         
                                                                        
@@ -113,55 +172,34 @@
                                                             <p>{{ $proyecto->descripcion }}</p>
 
                                                         </div>
-                                                        <div class="row g-2 pt-4">
-                                                            <div class="col-6">
-                                                                <div class="d-flex align-items-center">
-                                                                    <i class="icofont-paper-clip"></i>
-                                                                    <span class="ms-2">5 Attach</span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                <div class="d-flex align-items-center">
-                                                                    <i class="icofont-sand-clock"></i>
-                                                                    <span class="ms-2">4 Month</span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                <div class="d-flex align-items-center">
-                                                                    <i class="icofont-group-students "></i>
-                                                                    <span class="ms-2">5 Members</span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                <div class="d-flex align-items-center">
-                                                                    <i class="icofont-ui-text-chat"></i>
-                                                                    <span class="ms-2">10</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+
                                                         <div class="dividers-block"></div>
                                                         <div
                                                             class="d-flex align-items-center justify-content-between mb-2">
-                                                            <h4 class="small fw-bold mb-0">Progress</h4>
-                                                            <span class="small light-danger-bg  p-1 rounded"><i
-                                                                    class="icofont-ui-clock"></i> 35 Days Left</span>
+                                                            <h4 class="small fw-bold mb-0">Progreso</h4>
                                                         </div>
-                                                        <div class="progress" style="height: 8px;">
-                                                            <div class="progress-bar bg-secondary" role="progressbar"
-                                                                style="width: 25%" aria-valuenow="15"
-                                                                aria-valuemin="0" aria-valuemax="100"></div>
-                                                            <div class="progress-bar bg-secondary ms-1"
-                                                                role="progressbar" style="width: 25%"
-                                                                aria-valuenow="30" aria-valuemin="0"
-                                                                aria-valuemax="100"></div>
-                                                            <div class="progress-bar bg-secondary ms-1"
-                                                                role="progressbar" style="width: 10%"
-                                                                aria-valuenow="10" aria-valuemin="0"
-                                                                aria-valuemax="100"></div>
+                                                        <div class="progress" style="height: 10px; height: 20px;">
+
+                                                            @if ($proyecto->avance < 11)
+                                                                <div class="progress-bar light-success-bg"
+                                                                    role="progressbar" style="width: 10%"
+                                                                    aria-valuenow="40" aria-valuemin="0"
+                                                                    aria-valuemax="100">
+                                                                    <strong>{{ $proyecto->avance }}%</strong>
+                                                                </div>
+                                                            @else
+                                                                <div class="progress-bar light-success-bg"
+                                                                    role="progressbar"
+                                                                    style="width: {{ $proyecto->avance }}%"
+                                                                    aria-valuenow="40" aria-valuemin="0"
+                                                                    aria-valuemax="100">
+                                                                    <strong>{{ $proyecto->avance }}%</strong>
+                                                                </div>
+                                                            @endif
+
                                                         </div>
                                                     </div>
                                                 </div>
-                                                @include('livewire.proyecto-edit')
                                             @endif
                                         @endforeach
                                     </div>
@@ -200,7 +238,7 @@
             style=" width: 60px;
     height: 60px;
     border-radius: 100%;
-    background: #2196F3;
+    background: #484c7f;
     right: 0;
     bottom: 0;
     position: absolute;
@@ -218,3 +256,14 @@
     </div>
 
 </div>
+
+
+<script type="text/javascript">
+    window.addEventListener('close-modal', (e) => {
+        $('#create_proyecto').modal('hide')
+    });
+
+    window.addEventListener('close-modal-edit', (e) => {
+        $('#edit_proyecto').modal('hide')
+    });
+</script>

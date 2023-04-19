@@ -27,10 +27,8 @@ class ProyectoController extends Controller
 
     public function show($id)
     {
-        $proyecto =  Proyecto::where('id','=',$id)->get();
-        $estados = Estado::whereIn('id',[2,3,4])->get();
-        $response = ["proyecto"=>$proyecto,"estados"=>$estados];
-        return $response;
+        session(['id_proyecto' => $id]);
+        return view('proyectos.edit', ['proyecto' => Proyecto::findOrFail($id)]);
     }
 
     public function edit($id)
