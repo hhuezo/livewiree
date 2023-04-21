@@ -29,16 +29,17 @@ class ActividadShow extends Component
     public function render()
     {
         $proyecto = Proyecto::findOrFail($this->id_proyecto);
-        $estados = Estado::get();
+        $estados = Estado::whereNotIn('id',[6,7])->get();
         $categorias = Categoria::get();
         $prioridades = Prioridad::get();
         $usuarios = Users::where('id', '>', 1)->get();
+        $colors = ["","planned_task","review_task","progress_task","completed_task"];
         if (strlen($this->busqueda) > 0) {
             $actividades = Actividad::where('descripcion', 'like', '%' . $this->busqueda . '%')->where('proyecto_id', '=', $this->id_proyecto)->orderBy('id', 'desc')->get();
         } else {
             $actividades = Actividad::where('proyecto_id', '=', $this->id_proyecto)->orderBy('id', 'desc')->get();
         }
-        return view('livewire.actividad-show', compact('proyecto', 'actividades', 'estados', 'categorias', 'prioridades', 'usuarios'));
+        return view('livewire.actividad-show', compact('proyecto', 'actividades', 'estados', 'categorias', 'prioridades', 'usuarios','colors'));
     }
 
     protected $listeners = ['load_actividad' => 'load'];

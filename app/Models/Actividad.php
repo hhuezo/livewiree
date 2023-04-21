@@ -30,7 +30,13 @@ class Actividad extends Model
         return $this->belongsTo('App\Models\Estado', 'estado_id', 'id');
     }
 
+    public function prioridad(){
+        return $this->belongsTo('App\Models\Prioridad', 'prioridad_id', 'id');
+    }
+
     public function usuario(){
         return $this->belongsTo('App\Models\Users', 'users_id', 'id');
     }
+
+
 }

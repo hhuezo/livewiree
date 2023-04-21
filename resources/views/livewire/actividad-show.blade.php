@@ -1,5 +1,12 @@
-<div style="text-align: center">
 
+
+<div style="text-align: center">
+    <style>
+        .dd-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
+        }
+    </style>
     <!-- Body: Body -->
     <div class="body d-flex py-lg-3 py-md-2">
 
@@ -7,12 +14,12 @@
             <div class="row align-items-center">
                 <div class="border-0 mb-4">
                     <div
-                        class="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
-                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                            <h3 class="fw-bold mb-0">
+                        class="card-header py-3 no-bg bg-transparent d-flex px-0  border-bottom flex-wrap">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" style="text-align: left;">
+                            <h5 class="fw-bold mb-0">
                                 <a href="{{ url('proyecto/') }}"><i class="icofont-arrow-left fa-lg"></i></a>
                                 {{ $proyecto->nombre }}
-                            </h3>
+                            </h5>
                         </div>
                         <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
                             <input type="text" class="form-control" placeholder="Buscar" wire:model="busqueda">
@@ -29,67 +36,147 @@
                 </div>
             </div>
 
-            <div
-                class="row g-3 row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2 row-cols-xl-2 row-cols-xxl-2 row-deck py-1 pb-4">
+            <div class="row taskboard g-3 py-xxl-4">
+                <!--taskboard-->
+            
+
                 @if ($tipo == 1)
-                    @foreach ($actividades as $actividad)
-                        <div class="col">
-                            <div class="card teacher-card">
-                                <div class="card-body  d-flex">
-                                    <div class="profile-av pe-xl-4 pe-md-2 pe-sm-4 pe-4 text-center w220">
-                                        <img src="{{ url('/') . '/images/lg/avatar3.jpg' }}" alt=""
-                                            class="avatar xl rounded-circle img-thumbnail shadow-sm">
-                                        <div
-                                            class="about-info d-flex align-items-center mt-1 justify-content-center flex-column">
-                                            <h6 class="mb-0 fw-bold d-block fs-6 mt-2">
-                                                @if ($actividad->users_id)
-                                                    {{ $actividad->usuario->name }}
-                                                @endif
-                                            </h6>
-                                            <div class="btn-group mt-2" role="group"
-                                                aria-label="Basic outlined example">
-                                                <button type="button" class="btn btn-outline-secondary"
-                                                    data-bs-toggle="modal" wire:click="edit({{ $actividad->id }})"
-                                                    data-bs-target="#edit_actividad"><i
-                                                        class="icofont-edit text-success"></i></button>
-                                                <button type="button" class="btn btn-outline-secondary"
-                                                    data-bs-toggle="modal" data-bs-target="#deleteclient"><i
-                                                        class="icofont-ui-delete text-danger"></i></button>
+
+                
+
+                @foreach ($estados as $estado)
+                <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 mt-xxl-3 mt-xl-3 mt-lg-3 mt-md-3 mt-sm-6 mt-6">
+                    <div class="col-lg-12 col-md-12">
+                        <h6 class="fw-bold py-3 mb-0">{{ $estado->nombre }}</h6>
+                    </div>
+
+                    <div class="{{$colors[$estado->id]}} col-lg-12 col-md-12">
+                        <div class="dd" data-plugin="nestable">
+                            <ol class="dd-list">
+                                @foreach ($actividades as $actividad)
+                                    @if ($actividad->estado_id == $estado->id)
+                                        <li class="dd-item" data-id="1" >
+                                            <div class="dd-handle">
+
+                                                <div
+                                                    class="task-info d-flex align-items-center justify-content-between">
+                                                    <div
+                                                        class="task-priority d-flex flex-column align-items-center justify-content-center">
+
+                                                        <h6 class="light-success-bg py-1 px-2 rounded-1 d-inline-block fw-bold small-14 mb-0"
+                                                            data-bs-toggle="modal"
+                                                            wire:click="edit({{ $actividad->id }})"
+                                                            data-bs-target="#edit_actividad">
+                                                            <i class="icofont-ui-edit fa-lg"></i> &nbsp;
+                                                            {{ $actividad->id }}
+                                                        </h6>
+                                                    </div>
+                                                    <div
+                                                        class="task-priority d-flex flex-column align-items-center justify-content-center">
+                                                        <div class="avatar-list avatar-list-stacked m-0">
+                                                            @if ($actividad->users_id)
+                                                                @if ($actividad->usuario)
+                                                                    <img class="avatar rounded-circle small-avt"
+                                                                        src="{{ url('/images/users') }}/{{ $actividad->usuario->image }}"
+                                                                        alt="">
+                                                                @else
+                                                                    <img class="avatar rounded-circle small-avt"
+                                                                        src="{{ url('/') . '/images/xs/avatar1.jpg' }}"
+                                                                        alt="">
+                                                                @endif
+                                                            @else
+                                                                <img class="avatar rounded-circle small-avt"
+                                                                    src="{{ url('/') . '/images/xs/avatar1.jpg' }}"
+                                                                    alt="">
+                                                            @endif
+                                                        </div>
+                                                        <span class="badge bg-warning text-end mt-2">
+                                                            @if ($actividad->users_id)
+                                                                @if ($actividad->usuario)
+                                                                    {{ $actividad->usuario->name }}
+                                                                @endif
+                                                            @endif
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <p class="py-2 mb-0" style="text-align: left;">{{ $actividad->descripcion }}</p>
+                                                <div class="tikit-info row g-3 align-items-center">
+                                                    <div class="col-sm">
+                                                        <ul
+                                                            class="d-flex list-unstyled align-items-center flex-wrap">
+                                                            <li class="me-6">
+                                                                <div class="d-flex align-items-center">
+                                                                    <span class="ms-1"><strong>{{ date('d/m/Y', strtotime($actividad->fecha_inicio)) }}
+                                                                            -
+                                                                            {{ date('d/m/Y', strtotime($actividad->fecha_fin)) }}</strong></span>
+                                                                </div>
+                                                            </li>
+                                                            <li class="me-2">
+                                                                <div
+                                                                    class="d-flex align-items-center text-{{ $actividad->prioridad->color }}">
+                                                                    <i class="icofont-flag"></i>
+                                                                    <span class="ms-1"><strong>
+                                                                            @if ($actividad->prioridad)
+                                                                                {{ $actividad->prioridad->nombre }}
+                                                                            @endif
+                                                                        </strong></span>
+                                                                </div>
+                                                            </li>
+
+                                                            <li>
+                                                                <div class="d-flex align-items-center">
+                                                                    <i class="icofont-check-circled"></i>
+                                                                    <span class="ms-1">Ticket:
+                                                                        {{ $actividad->numero_ticket }}</span>
+                                                                </div>
+                                                            </li>
+
+                                                            <li>
+                                                                <div class="d-flex align-items-center">
+
+                                                                    @if ($actividad->porcentaje <50)
+                                                                    <div class="progress" style="height: 20px; width: 150px;">
+                                                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 50%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+                                                                        {{$actividad->porcentaje}}%</div>
+                                                                    </div>
+                                                                    @elseif($actividad->porcentaje <70)
+                                                                    <div class="progress" style="height: 20px; width: 150px;">
+                                                                        <div class="progress-bar bg-warning" role="progressbar" style="width: {{$actividad->porcentaje}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+                                                                            {{$actividad->porcentaje}}%</div>
+                                                                    </div>
+                                                                    @else
+                                                                    <div class="progress" style="height: 20px; width: 150px;">
+                                                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{$actividad->porcentaje}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+                                                                            {{$actividad->porcentaje}}%</div>
+                                                                    </div>
+                                                                    @endif
+                                                                   
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col-sm text-end">
+                                                       
+                                                        <i class="icofont-check-circled"></i>
+                                                        <span class="ms-1"><strong>Ponderacion:
+                                                            {{ $actividad->ponderacion }}</strong></span>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="teacher-info border-start ps-xl-4 ps-md-3 ps-sm-4 ps-4 w-100">
-                                        <h6 class="mb-0 mt-2  fw-bold d-block fs-6">{{ $actividad->id }}</h6>
-                                        <span class="py-1 fw-bold small-11 mb-0 mt-1 text-muted">Ticket
-                                            {{ $actividad->numero_ticket }}</span>
-                                        <div class="video-setting-icon mt-3 pt-3 border-top">
-                                            <p>{{ $actividad->descripcion }}</p>
-                                        </div>
-                                        <div class="progress" style="height: 10px; height: 20px;">
-                                            <div class="progress-bar light-success-bg" role="progressbar"
-                                                style="width: {{ $actividad->porcentaje }}%" aria-valuenow="40"
-                                                aria-valuemin="0" aria-valuemax="100">
-                                                <strong>{{ $actividad->porcentaje }}%</strong>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex flex-wrap align-items-center ct-btn-set">
-                                            <a href="{{ route('admin.app.messages') }}"
-                                                class="btn btn-dark btn-sm mt-1 me-1"><i
-                                                    class="icofont-ui-file me-2 fs-6"></i>Ponderación:
-                                                {{ $actividad->ponderacion }}</a>
-                                            <a href="{{ route('admin.out-client.clients-profile') }}"
-                                                class="btn btn-dark btn-sm mt-1"><i
-                                                    class="icofont-check-circled me-2 fs-6"></i>
-                                                @if ($actividad->estado_id)
-                                                    {{ $actividad->estado->nombre }}
-                                                @endif
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
+                                        </li>
+                                    @endif
+                                @endforeach
+
+                            </ol>
                         </div>
-                    @endforeach
+                    </div>
+                </div>
+            @endforeach
+
+
+
+
                 @else
                     <table id="patient-table" class="table table-hover align-middle mb-0" style="width: 100%;">
                         <thead>
@@ -127,7 +214,7 @@
                                         </div>
                                     </td>
                                     <td>{{ $actividad->ponderacion }}</td>
-                                    <td><span class="badge bg-info">
+                                    <td><span class="badge bg-{{$actividad->estado->color}}">
                                             @if ($actividad->estado_id)
                                                 {{ $actividad->estado->nombre }}
                                             @endif

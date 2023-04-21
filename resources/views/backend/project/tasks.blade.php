@@ -209,7 +209,7 @@
                             </div>
                         </div>
                         <div class="row taskboard g-3 py-xxl-4">
-                            <!-- <div class="col-xxl-3 col-xl-12 col-lg-12 col-md-12 mt-xxl-4 mt-xl-4 mt-lg-4 mt-md-4 mt-sm-4 mt-4">
+                          <div class="col-xxl-3 col-xl-12 col-lg-12 col-md-12 mt-xxl-4 mt-xl-4 mt-lg-4 mt-md-4 mt-sm-4 mt-4">
                                 <h6 class="fw-bold py-3 mb-0">Task Ready</h6>
                                 <div class="planned_task">
                                     <div class="dd" data-plugin="nestable">
@@ -406,7 +406,7 @@
                                         </ol>
                                     </div>
                                 </div>
-                            </div> -->
+                            </div> 
                             <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 mt-xxl-4 mt-xl-4 mt-lg-4 mt-md-4 mt-sm-4 mt-4">
                                 <h6 class="fw-bold py-3 mb-0">In Progress</h6>
                                 <div class="progress_task">
