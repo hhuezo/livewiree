@@ -18,8 +18,9 @@ class ProyectoShow extends Component
         } else {
             $this->proyectos = Proyecto::orderBy('id', 'desc')->get();
         }
-        $estados = Estado::whereIn('id', [2, 3, 4])->get();
-        return view('livewire.proyecto-show', compact('estados'));
+        $estados = Estado::whereIn('id', [2, 3, 4,6])->get();
+        $colors = ["","planned_task","review_task","progress_task","completed_task","completed_task","planned_task"];
+        return view('livewire.proyecto-show', compact('estados','colors'));
     }
 
    

@@ -1,5 +1,10 @@
 <div style="text-align: center">
-
+    <style>
+        .dd-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
+        }
+    </style>
 
     <div id="create_proyecto" wire:ignore.self tabindex="-1" class="modal fade" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
@@ -11,14 +16,14 @@
 
                 <div class="modal-body">
                     @if (count($errors) > 0)
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <div class="mb-3">
                         <label class="form-label">Estado</label>
                         <select class="form-select" wire:model.defer="estado_id"
@@ -60,14 +65,14 @@
 
                 <div class="modal-body">
                     @if (count($errors) > 0)
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <div class="mb-3">
                         <input type="hidden" wire:model.defer="id_proyecto">
                         <label class="form-label">Estado</label>
@@ -109,7 +114,7 @@
                         <div
                             class="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" style="text-align: left;">
-                                <h3 class="fw-bold mb-0">Proyectos</h3>
+                                <h5 class="fw-bold mb-0">Proyectos</h5>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                 <input type="text" class="form-control" placeholder="Buscar" wire:model="busqueda">
@@ -122,99 +127,81 @@
                 </div>
 
 
-                <div
-                    class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 mt-xxl-12 mt-xl-12 mt-lg-12 mt-md-12 mt-sm-12 mt-12 row">
-
+                <div class="row taskboard g-3 py-xxl-4">
                     @foreach ($estados as $estado)
                         <div
-                            class="tab-content mt-4 col-xxl-4 col-xl-4 col-lg-4 col-md-4 mt-xxl-4 mt-xl-4 mt-lg-4 mt-md-12 mt-sm-12 mt-12">
-                            <h3>{{ $estado->nombre }}</h3>
-                            <div class="tab-pane fade show active" id="All-list">
-
-                                <div class="g-3 gy-5 py-3 deck">
-                                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            class="col-xxl-3 col-xl-12 col-lg-12 col-md-12 mt-xxl-4 mt-xl-4 mt-lg-4 mt-md-4 mt-sm-4 mt-4">
+                            <h6 class="fw-bold py-3 mb-0">{{ $estado->nombre }}</h6>
+                            <div class="{{$colors[$estado->id]}} col-lg-12 col-md-12">
+                                <div class="dd" data-plugin="nestable">
+                                    <ol class="dd-list">
                                         @foreach ($proyectos as $proyecto)
                                             @if ($proyecto->estado_id == $estado->id)
-                                                <div class="card">
-                                                    <div class="card-body">
+                                                <li class="dd-item" data-id="2">
+                                                    <div class="dd-handle">
                                                         <div
-                                                            class="d-flex align-items-center justify-content-between mt-5">
-                                                            <span class="small text-muted project_name fw-bold">
-                                                                {{ $proyecto->id }} </span>
-                                                            <h6 class="mb-0 fw-bold  fs-6  mb-2">{{ $proyecto->nombre }}
-                                                            </h6>
+                                                            class="task-info d-flex align-items-center justify-content-between">
+                                                            <h6
+                                                                class="bg-lightgreen py-1 px-2 rounded-1 d-inline-block fw-bold small-14 mb-0" >
+                                                                <i class="icofont-ui-edit fa-lg"
+                                                                wire:click="edit({{ $proyecto->id }})"
+                                                                class="btn btn-outline-secondary"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#edit_proyecto"
+                                                                ></i> 
 
-                                                            <div class="btn-group" role="group"
-                                                                aria-label="Basic outlined example">
-                                                                <button type="button"
-                                                                    wire:click="edit({{ $proyecto->id }})"
-                                                                    class="btn btn-outline-secondary"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#edit_proyecto"><i
-                                                                        class="icofont-edit text-success fa-lg"></i></button>
+                                                            </h6>                                                            
+                                                            <span >
+                                                                <h6><strong>{{ $proyecto->id }}</strong></h6>
+                                                             </span>
+                                                        </div>
+                                                       
+                                                        <p class="py-2 mb-0"> <strong>{{$proyecto->nombre}}</strong></p>
+                                                        <p class="py-2 mb-0">{{$proyecto->descripcion}}</p>
+                                                        <div class="tikit-info row g-3 align-items-center">
+                                                            
+                                                            <div class="col-sm text-end">
 
-                                                                <div class="btn btn-outline-secondary"><i
-                                                                        class="icofont-eye-alt text-info fa-lg"
-                                                                        wire:click="actividad_show({{ $proyecto->id }})"></i>
+                                                                <div class="d-flex align-items-center">
+
+                                                                    @if ($proyecto->avance <50)
+                                                                    <div class="progress" style="height: 20px; width: 150px;">
+                                                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 50%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+                                                                        {{$proyecto->avance}}%</div>
+                                                                    </div>
+                                                                    @elseif($proyecto->avance <70)
+                                                                    <div class="progress" style="height: 20px; width: 150px;">
+                                                                        <div class="progress-bar bg-warning" role="progressbar" style="width: {{$proyecto->avance}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+                                                                            {{$proyecto->avance}}%</div>
+                                                                    </div>
+                                                                    @else
+                                                                    <div class="progress" style="height: 20px; width: 150px;">
+                                                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{$proyecto->avance}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+                                                                            {{$proyecto->avance}}%</div>
+                                                                    </div>
+                                                                    @endif
+                                                                   
                                                                 </div>
-                                                                <!--
-                                                                        
-                                                                       
-                                                                        
-                                                                        <button type="button" class="btn btn-outline-secondary"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#deleteproject"><i
-                                                                        class="icofont-ui-delete text-danger"></i></button>-->
+                                                            </div>
+                                                            <div class="col-sm text-end">
+                                                                <div class="bg-lightgreen py-1 px-2 rounded-1 d-inline-block fw-bold small-14 mb-0"  wire:click="actividad_show({{ $proyecto->id }})"> <strong><i class="icofont-eye fa-lg"></i> Actividades</strong></div>
+                                                               
                                                             </div>
                                                         </div>
-                                                        <div class="d-flex align-items-center">
-                                                            <p>{{ $proyecto->descripcion }}</p>
-
-                                                        </div>
-
-                                                        <div class="dividers-block"></div>
-                                                        <div
-                                                            class="d-flex align-items-center justify-content-between mb-2">
-                                                            <h4 class="small fw-bold mb-0">Progreso</h4>
-                                                        </div>
-                                                        <div class="progress" style="height: 10px; height: 20px;">
-                                                           
-                                                            @if ($proyecto->avance < 11)
-                                                                <div class="progress-bar light-success-bg"
-                                                                    role="progressbar"
-                                                                    style="width: 10%"
-                                                                    aria-valuenow="40" aria-valuemin="0"
-                                                                    aria-valuemax="100">
-                                                                    <strong>{{ $proyecto->avance }}%</strong>
-                                                                </div>
-                                                            @else
-                                                                <div class="progress-bar light-success-bg"
-                                                                    role="progressbar"
-                                                                    style="width: {{ $proyecto->avance }}%"
-                                                                    aria-valuenow="40" aria-valuemin="0"
-                                                                    aria-valuemax="100">
-                                                                    <strong>{{ $proyecto->avance }}%</strong>
-                                                                </div>
-                                                            @endif
-
-                                                        </div>
+                                                      
                                                     </div>
-                                                </div>
+                                                   
+
+                                                </li>
                                             @endif
                                         @endforeach
-                                    </div>
+
+
+                                    </ol>
                                 </div>
                             </div>
                         </div>
                     @endforeach
-
-
-
-
-
-
-
-
 
 
 

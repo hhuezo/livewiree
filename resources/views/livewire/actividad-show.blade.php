@@ -1,5 +1,4 @@
 
-
 <div style="text-align: center">
     <style>
         .dd-item:hover {
@@ -20,15 +19,31 @@
                                 <a href="{{ url('proyecto/') }}"><i class="icofont-arrow-left fa-lg"></i></a>
                                 {{ $proyecto->nombre }}
                             </h5>
+                            @if ($proyecto->avance <50)
+                            <div class="progress" style="height: 20px; width: 400px;">
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: 50%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+                                    <strong> {{number_format($proyecto->avance, 2, '.', '')}}% de {{$ponderacion_total}}</strong> </div>
+                            </div>
+                            @elseif($proyecto->avance <70)
+                            <div class="progress" style="height: 20px; width: 400px;">
+                                <div class="progress-bar bg-warning" role="progressbar" style="width: {{$proyecto->avance}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+                                    <strong> {{number_format($proyecto->avance, 2, '.', '')}}% de {{$ponderacion_total}}</strong> </div>
+                            </div>
+                            @else
+                            <div class="progress" style="height: 20px; width: 400px;">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: {{$proyecto->avance}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+                                   <strong> {{number_format($proyecto->avance, 2, '.', '')}}% de {{$ponderacion_total}}</strong> </div>
+                            </div>
+                            @endif
                         </div>
                         <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
                             <input type="text" class="form-control" placeholder="Buscar" wire:model="busqueda">
                         </div>
                         @if ($tipo == 1)
-                            <button class="btn btn-primary" wire:click="changeType"><i
+                            <button class="btn btn-primary" style="height: 38px" wire:click="changeType"><i
                                     class="icofont-listine-dots fa-lg"></i></button>
                         @else
-                            <button class="btn btn-primary" wire:click="changeType"><i
+                            <button class="btn btn-primary" style="height: 38px" wire:click="changeType"><i
                                     class="icofont-penalty-card fa-lg"></i></button>
                         @endif
 
@@ -198,7 +213,7 @@
                                     <td>{{ $actividad->numero_ticket }}</td>
                                     <td><img src="{{ URL('/') . '/images/xs/avatar3.jpg' }}"
                                             class="avatar sm rounded-circle me-2" alt="profile-image"><span>
-                                            @if ($actividad->users_id)
+                                            @if ($actividad->usuario)
                                                 {{ $actividad->usuario->name }}
                                             @endif
                                         </span>

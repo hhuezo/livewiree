@@ -29,17 +29,31 @@ class ActividadShow extends Component
     public function render()
     {
         $proyecto = Proyecto::findOrFail($this->id_proyecto);
+
+        $proyecto = Proyecto::join('estados', 'proyectos.estado_id', '=', 'estados.id')
+        ->select('proyectos.id as id', 'proyectos.nombre', 'proyectos.avance as avance_temp',
+        'proyectos.estado_id',
+        
+        \DB::raw('(select ifnull(sum((act.porcentaje/100) * act.ponderacion),0) from actividades act
+        where act.proyecto_id = proyectos.id and act.estado_id <> 7) as avance'))
+        ->where('proyectos.id', '=', $this->id_proyecto)
+        ->first();
         $estados = Estado::whereNotIn('id',[6,7])->get();
         $categorias = Categoria::get();
         $prioridades = Prioridad::get();
         $usuarios = Users::where('id', '>', 1)->get();
+        $ponderacion_total = Actividad::where('proyecto_id','=',$this->id_proyecto)->where('estado_id','<>',7)->sum('ponderacion');
+
+        $ponderacion_total = Actividad::where('proyecto_id','=',$this->id_proyecto)->where('estado_id','<>',7)->sum('ponderacion');
+        //(select ifnull(sum((act.porcentaje/100) * act.ponderacion),0)
+
         $colors = ["","planned_task","review_task","progress_task","completed_task"];
         if (strlen($this->busqueda) > 0) {
             $actividades = Actividad::where('descripcion', 'like', '%' . $this->busqueda . '%')->where('proyecto_id', '=', $this->id_proyecto)->orderBy('id', 'desc')->get();
         } else {
             $actividades = Actividad::where('proyecto_id', '=', $this->id_proyecto)->orderBy('id', 'desc')->get();
         }
-        return view('livewire.actividad-show', compact('proyecto', 'actividades', 'estados', 'categorias', 'prioridades', 'usuarios','colors'));
+        return view('livewire.actividad-show', compact('proyecto', 'actividades', 'estados', 'categorias', 'prioridades', 'usuarios','colors','ponderacion_total'));
     }
 
     protected $listeners = ['load_actividad' => 'load'];
