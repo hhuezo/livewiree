@@ -44,8 +44,7 @@ class ActividadShow extends Component
         $usuarios = Users::where('id', '>', 1)->get();
         $ponderacion_total = Actividad::where('proyecto_id','=',$this->id_proyecto)->where('estado_id','<>',7)->sum('ponderacion');
 
-        $ponderacion_total = Actividad::where('proyecto_id','=',$this->id_proyecto)->where('estado_id','<>',7)->sum('ponderacion');
-        //(select ifnull(sum((act.porcentaje/100) * act.ponderacion),0)
+     
 
         $colors = ["","planned_task","review_task","progress_task","completed_task"];
         if (strlen($this->busqueda) > 0) {

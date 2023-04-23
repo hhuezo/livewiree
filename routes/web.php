@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\ProyectoController;
-
+use App\Http\Controllers\ProyectoFinalizadoController;
+use App\Http\Controllers\ProyectoUsuarioController;
 /*
  * Global Routes
  *
@@ -10,6 +11,8 @@ use App\Http\Controllers\ProyectoController;
  */
 
  Route::resource('proyecto', ProyectoController::class);
+ Route::resource('proyecto_finalizado', ProyectoFinalizadoController::class);
+ Route::resource('proyecto_usuario', ProyectoUsuarioController::class);
 
 
 

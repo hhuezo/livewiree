@@ -20,11 +20,12 @@
                 <!-- Menu: Sub menu ul -->
                 <ul class="sub-menu {{ Request::segment(2)=='project' ? 'collapsed show' : 'collapse' }}" id="project-Components">
                     <li><a class="ms-link {{ Request::segment(3)=='index' ? 'active' : '' }}" href="{{ url('proyecto') }}"><span>Proyectos</span></a></li>
-                    <li><a class="ms-link {{ Request::segment(3)=='tasks' ? 'active' : '' }}" href="{{ route('admin.project.tasks') }}"><span>Tasks</span></a></li>
+                    <li><a class="ms-link {{ Request::segment(3)=='tasks' ? 'active' : '' }}" href="{{ url('proyecto_finalizado') }}"><span>Proyectos finalizados</span></a></li>
                     <li><a class="ms-link {{ Request::segment(3)=='timesheet' ? 'active' : '' }}" href="{{ route('admin.project.timesheet') }}"><span>Timesheet</span></a></li>
                     <li><a class="ms-link {{ Request::segment(3)=='leaders' ? 'active' : '' }}" href="{{ route('admin.project.leaders') }}"><span>Leaders</span></a></li>
                 </ul>
             </li>
+            <?php /*
             <li class="collapsed">
                 <a class="m-link {{ Request::segment(2) == 'hr-dashboard' || Request::segment(2) == 'project-dashboard' ? 'active' : '' }}" data-bs-toggle="collapse" data-bs-target="#dashboard-Components" href="#">
                     <i class="icofont-home fs-5"></i> <span>Dashboard</span> <span class="arrow icofont-dotted-down ms-auto text-end fs-5"></span></a>
@@ -133,8 +134,11 @@
                 </ul>
             </li>
             <li><a class="m-link {{ Request::segment(3) == 'alerts' ? 'active' : '' }}" href="{{ route('admin.ui-components.alerts') }}"><i class="icofont-paint"></i> <span>UI Components</span></a></li>
+        */?>
+       
         </ul>
 
+        <?php /*
         <!-- Theme: Switch Theme -->
         <ul class="list-unstyled mb-0">
             <li class="d-flex align-items-center justify-content-center">
@@ -154,7 +158,7 @@
         <!-- Menu: menu collepce btn -->
         <button type="button" class="btn btn-link sidebar-mini-btn text-light">
             <span class="ms-2"><i class="icofont-bubble-right"></i></span>
-        </button>
+        </button> */?>
     </div>
 </div>
 @endif

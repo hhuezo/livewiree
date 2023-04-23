@@ -130,7 +130,7 @@
                 <div class="row taskboard g-3 py-xxl-4">
                     @foreach ($estados as $estado)
                         <div
-                            class="col-xxl-3 col-xl-12 col-lg-12 col-md-12 mt-xxl-4 mt-xl-4 mt-lg-4 mt-md-4 mt-sm-4 mt-4">
+                            class="col-xxl-3 col-xl-6 col-lg-6 col-md-6 mt-xxl-4 mt-xl-4 mt-lg-4 mt-md-4 mt-sm-4 mt-4">
                             <h6 class="fw-bold py-3 mb-0">{{ $estado->nombre }}</h6>
                             <div class="{{$colors[$estado->id]}} col-lg-12 col-md-12">
                                 <div class="dd" data-plugin="nestable">
@@ -163,23 +163,25 @@
                                                             <div class="col-sm text-end">
 
                                                                 <div class="d-flex align-items-center">
-
-                                                                    @if ($proyecto->avance <50)
-                                                                    <div class="progress" style="height: 20px; width: 150px;">
-                                                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 50%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
-                                                                        {{$proyecto->avance}}%</div>
-                                                                    </div>
-                                                                    @elseif($proyecto->avance <70)
-                                                                    <div class="progress" style="height: 20px; width: 150px;">
-                                                                        <div class="progress-bar bg-warning" role="progressbar" style="width: {{$proyecto->avance}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+                                                                    @if ($proyecto->id != 9 && $proyecto->id != 11)
+                                                                        @if ($proyecto->avance <50)
+                                                                        <div class="progress" style="height: 20px; width: 150px;">
+                                                                            <div class="progress-bar bg-danger" role="progressbar" style="width: 50%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
                                                                             {{$proyecto->avance}}%</div>
-                                                                    </div>
-                                                                    @else
-                                                                    <div class="progress" style="height: 20px; width: 150px;">
-                                                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{$proyecto->avance}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
-                                                                            {{$proyecto->avance}}%</div>
-                                                                    </div>
+                                                                        </div>
+                                                                        @elseif($proyecto->avance <70)
+                                                                        <div class="progress" style="height: 20px; width: 150px;">
+                                                                            <div class="progress-bar bg-warning" role="progressbar" style="width: {{$proyecto->avance}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+                                                                                {{$proyecto->avance}}%</div>
+                                                                        </div>
+                                                                        @else
+                                                                        <div class="progress" style="height: 20px; width: 150px;">
+                                                                            <div class="progress-bar bg-success" role="progressbar" style="width: {{$proyecto->avance}}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+                                                                                {{$proyecto->avance}}%</div>
+                                                                        </div>
+                                                                        @endif
                                                                     @endif
+                                                                   
                                                                    
                                                                 </div>
                                                             </div>

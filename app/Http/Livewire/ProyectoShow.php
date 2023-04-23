@@ -13,10 +13,31 @@ class ProyectoShow extends Component
 
     public function render()
     {
+
         if (strlen($this->busqueda) > 0) {
-            $this->proyectos = Proyecto::where('nombre', 'like', '%' . $this->busqueda . '%')->orderBy('id', 'desc')->get();
+            $this->proyectos = Proyecto::join('estados','proyectos.estado_id','=','estados.id')
+            ->select('proyectos.id','proyectos.nombre','proyectos.descripcion','estados.nombre as estado',
+            'estados.color','proyectos.destacado','proyectos.avance','proyectos.finalizado','proyectos.estado_id')
+            ->where('proyectos.nombre','LIKE','%'.$this->busqueda .'%')
+            ->where('proyectos.unidad_id','=',auth()->user()->unidad_id)
+            ->where('proyectos.finalizado','=',0)
+            ->where('proyectos.estado_id','<>',7)
+            ->where('proyectos.estado_id','>',1)
+            ->where('proyectos.id','<>',28)
+            //->take(20)
+            ->get();
         } else {
-            $this->proyectos = Proyecto::orderBy('id', 'desc')->get();
+            //$this->proyectos = Proyecto::orderBy('id', 'desc')->get();
+            $this->proyectos = Proyecto::join('estados','proyectos.estado_id','=','estados.id')
+            ->select('proyectos.id','proyectos.nombre','proyectos.descripcion','estados.nombre as estado',
+            'estados.color','proyectos.destacado','proyectos.avance','proyectos.finalizado','proyectos.estado_id')
+            ->where('proyectos.unidad_id','=',auth()->user()->unidad_id)
+            ->where('proyectos.finalizado','=',0)
+            ->where('proyectos.estado_id','<>',7)
+            ->where('proyectos.estado_id','>',1)
+            ->where('proyectos.id','<>',28)
+            //->take(20)
+            ->get();
         }
         $estados = Estado::whereIn('id', [2, 3, 4,6])->get();
         $colors = ["","planned_task","review_task","progress_task","completed_task","completed_task","planned_task"];
